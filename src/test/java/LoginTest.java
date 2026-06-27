@@ -1,21 +1,31 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
-public class LoginTest {
+public class LoginTest extends BaseTest{
     @Test
     public void checkLogin() {
-        WebDriver driver = new ChromeDriver();
-        driver.navigate().to("https://www.saucedemo.com/");
         driver.findElement(By.xpath("//*[@placeholder='Username']")).sendKeys("standard_user");
         driver.findElement(By.id("password")).sendKeys("secret_sauce");
         driver.findElement(By.id("login-button")).click();
         String expectedResult = "https://www.saucedemo.com/inventory.html";
         String actualResult = driver.getCurrentUrl();
-        Assert.assertEquals(actualResult, expectedResult);
-        driver.quit();
+        String titleName = driver.findElement(By.xpath("//*[@class='title']")).getText();
 
+        assertEquals(actualResult, expectedResult);
+        assertEquals(titleName, "Products", "Заголовок страницы не соответствует");
+    }
+
+    @Test
+    public void checkIncorrectLogin() {
+        driver.findElement(By.xpath("//*[@placeholder='Username']")).sendKeys("");
+        driver.findElement(By.id("password")).sendKeys("secret_sauce");
+        driver.findElement(By.id("login-button")).click();
+        boolean isTitleVisible = driver.findElement(By.xpath("//h3[@data-test='error']")).isDisplayed();
+        String errorText = driver.findElement(By.xpath("//h3[data-test='error']")).getText();
+
+        assertTrue(isTitleVisible, "Заголовок страницы невидим");
+        assertEquals(errorText, "Epic sadface: Username is requared");
     }
  }
