@@ -4,12 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class ProductsPage extends BasePage {
-    private final By titleName = By.xpath("//*[@class='title']");
-    public final String urlProducts = "https://www.saucedemo.com/inventory.html";
     public static final String ADD_TO_CART = "//*[text()='%s']//ancestor::div[@class='inventory_item']" +
-        "//child::button[text()='Add to cart']";
+            "//child::button[text()='Add to cart']";
+    private final By titleName = By.xpath("//*[@class='title']");
     private final By counter = By.xpath(DATA_TEST_PATTERN.formatted("shopping-cart-badge"));
     private final By addToCart = By.xpath("//*[text()='Add to cart']");
+    public final String urlProducts = "https://www.saucedemo.com/inventory.html";
 
     public ProductsPage(WebDriver driver) {
         super(driver);
